@@ -25,10 +25,12 @@ class CredentialsData:
 # Do we really need to start the server?
 class LoginTest(LiveServerTestCase, CredentialsData):
     def setUp(self) -> None:
+        chrome_options = Options()
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--headless')
+
         # if error: https://stackoverflow.com/questions/50138615/webdriverexception-unknown-error-cannot-find-chrome-binary-error-with-selenium
-        options = Options()
-        options.add_argument('--no-sandbox')
-        self.browser = webdriver.Chrome(options=options, executable_path=chromedriver_filename)
+        self.browser = webdriver.Chrome(chrome_options=chrome_options, executable_path=chromedriver_filename)
         return super().setUp()
 
     def waitPageLoading(self) -> None:
