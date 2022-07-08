@@ -30,8 +30,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: install system dependency
-        run: sudo apt-get install -y chromium-browser
+      - uses: nanasess/setup-chromedriver@v1
+
+      # https://github.com/nanasess/setup-chromedriver
+      - run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -55,9 +60,6 @@ jobs:
 
       - name: test
         run: pytest
-
-      - name: Install chromedriver
-        run: pip install chromedriver-binary-auto
 
       - name: Run pre-commit check
         run: |
