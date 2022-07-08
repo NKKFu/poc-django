@@ -30,8 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: install system dependency
-        run: bash scripts/install-google-chrome.sh
+      - uses: nanasess/setup-chromedriver@v1
 
       - uses: conda-incubator/setup-miniconda@v2
         with:
