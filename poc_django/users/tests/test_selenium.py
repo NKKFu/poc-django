@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.options import Options
 from urllib.parse import urljoin
 
 
@@ -25,7 +26,9 @@ class CredentialsData:
 class LoginTest(LiveServerTestCase, CredentialsData):
     def setUp(self) -> None:
         # if error: https://stackoverflow.com/questions/50138615/webdriverexception-unknown-error-cannot-find-chrome-binary-error-with-selenium
-        self.browser = webdriver.Chrome(chromedriver_filename)
+        options = Options()
+        options.add_argument('--no-sandbox')
+        self.browser = webdriver.Chrome(options=options, executable_path=chromedriver_filename)
         return super().setUp()
 
     def waitPageLoading(self) -> None:
